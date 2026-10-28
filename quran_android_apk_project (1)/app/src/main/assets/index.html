@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#064e3b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogItin2YTZhdi12K3ZgSDYp9mE2YXYsdiq2YQg2KjYr9mI2YYg2KXZhtiq2LHZhtiqIC0g2KfZhNiv2YjYs9ix2Yog2YjYp9mE2YTYrdmK2K/Yp9mGIiwgInNob3J0X25hbWUiOiAi2KfZhNmF2LXYrdmBINin2YTZhdix2KrZhCIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDY0ZTNiIiwgInRoZW1lX2NvbG9yIjogIiMwNjRlM2IiLCAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLCAibGFuZyI6ICJhciIsICJkaXIiOiAicnRsIn0=" />
+  <title>المصحف المرتل بدون إنترنت | ياسر الدوسري ومحمد اللحيدان</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --quran-font-size: 1.65rem;
+    }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .font-quran {
+      font-family: 'Amiri Quran', 'Amiri', serif;
+      font-size: var(--quran-font-size);
+      line-height: 2.35;
+    }
+    .ayah-active {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.16), rgba(217, 119, 6, 0.10));
+      border-color: #10b981 !important;
+      box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.22);
+    }
+    .dark .ayah-active {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(217, 119, 6, 0.15));
+      border-color: #34d399 !important;
+    }
+    
+    /* Continuous Full-Surah Mushaf Frame */
+    .mushaf-page-frame {
+      background: linear-gradient(180deg, #fffdf7 0%, #fefaf0 100%);
+      border: 2px solid #d97706;
+      box-shadow: inset 0 0 0 4px rgba(217, 119, 6, 0.12), 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    }
+    .dark .mushaf-page-frame {
+      background: linear-gradient(180deg, #0f172a 0%, #09101d 100%);
+      border: 2px solid #059669;
+      box-shadow: inset 0 0 0 4px rgba(16, 185, 129, 0.12), 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+    .ayah-inline-span {
+      display: inline;
+      padding: 1px 2px;
+      margin: 0;
+      border-radius: 6px;
+      transition: background-color 0.15s ease, color 0.15s ease;
+      cursor: pointer;
+    }
+    .ayah-inline-span:hover {
+      background-color: rgba(16, 185, 129, 0.12);
+    }
+    .ayah-inline-span.ayah-active {
+      background: rgba(16, 185, 129, 0.24) !important;
+      color: #064e3b;
+      box-shadow: 0 0 0 2px #10b981;
+      font-weight: 700;
+    }
+    .dark .ayah-inline-span.ayah-active {
+      background: rgba(16, 185, 129, 0.35) !important;
+      color: #ecfdf5;
+      box-shadow: 0 0 0 2px #34d399;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(16, 185, 129, 0.35);
+      border-radius: 9999px;
+    }
+    @keyframes pulse-wave {
+      0%, 100% { transform: scaleY(0.4); }
+      50% { transform: scaleY(1); }
+    }
+    .wave-bar {
+      animation: pulse-wave 1s ease-in-out infinite;
+    }
+    .wave-bar:nth-child(2) { animation-delay: 0.2s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.15s; }
+  </style>
+</head>
+<body class="bg-stone-200 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col items-center justify-start transition-colors duration-200">
+  <div class="w-full max-w-[440px] min-h-screen bg-stone-50 dark:bg-slate-900 shadow-2xl flex flex-col relative overflow-x-hidden border-x border-stone-300/80 dark:border-slate-800">
+
+  <!-- Native Mobile App Top Bar (شريط تطبيق الهاتف مع زر رجوع واضح) -->
+  <header class="sticky top-0 z-30 bg-emerald-900 text-white shadow-md border-b border-amber-500/30">
+    <div class="px-3 py-2 space-y-2">
+      
+      <!-- Row 1: Back Button (when in subviews) + Reciter Switcher + Options -->
+      <div class="flex items-center justify-between gap-1.5">
+        <!-- Prominent Back Button (زر رجوع للمصحف) -->
+        <button id="btnTopBackToReader" type="button" class="hidden items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-xs shadow-sm hover:bg-amber-300 transition shrink-0">
+          <span>→</span>
+          <span>رجوع للمصحف</span>
+        </button>
+
+        <!-- Reciter Switcher Pills -->
+        <div class="flex items-center bg-emerald-950/90 p-0.5 rounded-xl border border-emerald-700/70 flex-1 justify-center">
+          <button id="btnReciterDosari" type="button" class="flex-1 py-1.5 px-2 rounded-lg font-extrabold text-xs transition-all bg-amber-400 text-slate-950 shadow-sm text-center">
+            ياسر الدوسري
+          </button>
+          <button id="btnReciterLuhaidan" type="button" class="flex-1 py-1.5 px-2 rounded-lg font-extrabold text-xs transition-all text-emerald-100 hover:bg-white/10 text-center">
+            محمد اللحيدان
+          </button>
+        </div>
+
+        <!-- Install APK / Phone App Button -->
+        <button id="btnInstallApkModal" type="button" title="تثبيت التطبيق على الهاتف بصيغة APK" class="px-2 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-[11px] font-extrabold transition shrink-0 flex items-center gap-1 shadow-sm">
+          <span>📲</span>
+          <span>تثبيت APK</span>
+        </button>
+
+        <!-- Font / Night / Repeat Drawer Button -->
+        <button id="btnToggleOptionsDrawer" type="button" title="خيارات التكرار والخط والوضع الليلي" class="p-1.5 rounded-xl bg-emerald-950/80 hover:bg-white/20 text-amber-300 border border-emerald-700/60 text-xs font-bold transition shrink-0">
+          ⚙️
+        </button>
+      </div>
+
+      <!-- Row 2: Surah Selector + Ayah Selector + Offline Save Button -->
+      <div class="flex items-center gap-1.5">
+        <select id="selectSurah" aria-label="اختر السورة" class="flex-1 min-w-0 rounded-xl bg-emerald-950/90 text-amber-200 border border-amber-400/40 px-2.5 py-1.5 text-xs sm:text-sm font-extrabold focus:outline-none focus:ring-2 focus:ring-amber-400"></select>
+        
+        <select id="selectAyah" aria-label="اختر الآية" class="w-24 rounded-xl bg-emerald-950/90 text-white border border-emerald-700 px-2 py-1.5 text-xs font-bold focus:outline-none"></select>
+
+        <button id="btnDownloadCurrentSurah" type="button" title="حفظ السورة للعمل بدون إنترنت" class="flex items-center gap-1 py-1.5 px-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-sm transition shrink-0">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span id="txtDownloadCurrentSurah">حفظ أوفلاين</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Collapsible Simple Tools Drawer (التكرار وحجم الخط والوضع الليلي) -->
+    <div id="optionsDrawerPanel" class="hidden bg-emerald-950 border-t border-white/10 px-3 py-2.5 text-xs">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="flex items-center gap-1">
+            <label for="selectAyahRepeat" class="text-emerald-200 font-bold">تكرار الآية:</label>
+            <select id="selectAyahRepeat" class="rounded-lg bg-emerald-900 text-amber-300 border border-emerald-700 px-2 py-1 font-bold">
+              <option value="1">بدون (1×)</option>
+              <option value="2">2×</option>
+              <option value="3">3×</option>
+              <option value="5">5×</option>
+              <option value="7">7×</option>
+              <option value="999">مستمر ∞</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-1">
+            <label for="selectSurahRepeat" class="text-emerald-200 font-bold">بعد السورة:</label>
+            <select id="selectSurahRepeat" class="rounded-lg bg-emerald-900 text-amber-300 border border-emerald-700 px-2 py-1 font-bold">
+              <option value="continuous" selected>قراءة السورة التالية تلقائياً</option>
+              <option value="surah">تكرار نفس السورة (∞)</option>
+              <option value="range">تكرار نطاق آيات</option>
+              <option value="none">إيقاف</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <button id="btnFontDecrease" type="button" class="px-2.5 py-1 rounded-lg bg-white/10 text-white font-bold">أ-</button>
+          <button id="btnFontIncrease" type="button" class="px-2.5 py-1 rounded-lg bg-white/10 text-white font-bold">أ+</button>
+          <button id="btnThemeToggle" type="button" class="px-2.5 py-1 rounded-lg bg-white/10 text-amber-300 font-bold">🌙</button>
+        </div>
+      </div>
+
+      <!-- Hidden Auxiliary Elements to preserve state bindings -->
+      <div class="hidden">
+        <span id="networkStatusBadge"><span id="networkDot"></span><span id="networkText"></span></span>
+        <div id="rangeRepeatControls">
+          <input id="inputRangeStart" type="number" min="1" value="1" />
+          <input id="inputRangeEnd" type="number" min="1" value="7" />
+        </div>
+        <span id="badgeSurahNumber"></span>
+        <span id="badgeSurahType"></span>
+        <span id="badgeOfflineStatus"></span>
+        <strong id="labelCurrentReciter"></strong>
+        <button id="btnToggleDisplayMode" type="button"></button>
+        <button id="btnSimulateOffline" type="button"></button>
+        <input id="inputSearchInSurah" type="text" />
+      </div>
+    </div>
+  </header>
+  <!-- Main Content Container: Directly the Surah of the Holy Quran -->
+  <main class="flex-1 max-w-3xl w-full mx-auto px-2 sm:px-4 pt-2 pb-40">
+
+    <!-- ==================== VIEW 1: DIRECT MUSHAF SURAH PAGE ==================== -->
+    <section id="viewReader" class="space-y-2">
+
+      <!-- Classic Ornate Surah Title Header Inside Mushaf -->
+      <div class="rounded-2xl bg-gradient-to-r from-emerald-900 via-teal-800 to-emerald-900 text-amber-200 px-4 py-2.5 shadow-sm border border-amber-500/40 flex items-center justify-between">
+        <span class="text-xs font-bold text-emerald-100" id="mushafSurahInfoRight">المصحف الشريف</span>
+        <h2 id="titleSurahName" class="text-xl sm:text-2xl font-extrabold font-quran tracking-wide text-center">سُورَةُ ٱلْفَاتِحَةِ</h2>
+        <span class="text-xs font-bold text-amber-300" id="mushafOfflineIndicator">بدون إنترنت ✓</span>
+      </div>
+
+      <!-- Bismillah Banner -->
+      <div id="bismillahBanner" class="hidden py-1.5 text-center font-quran text-xl sm:text-2xl text-emerald-900 dark:text-amber-200">
+        بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
+      </div>
+      <!-- Synchronized Ayat List Container -->
+      <div id="ayatListContainer" class="space-y-2.5"></div>
+
+    </section>
+
+    <!-- ==================== VIEW 2: ALL 114 SURAHS INDEX ==================== -->
+    <section id="viewSurahs" class="hidden space-y-3">
+      <div class="flex items-center justify-between bg-emerald-900 text-white px-3.5 py-2.5 rounded-2xl shadow-sm">
+        <span class="font-extrabold text-sm text-amber-300">📋 فهرس سور القرآن الكريم (114 سورة)</span>
+        <button type="button" data-back-reader="1" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-xs shadow-sm hover:bg-amber-300 transition">
+          <span>→</span>
+          <span>رجوع للسورة</span>
+        </button>
+      </div>
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-3.5 shadow-sm border border-stone-200 dark:border-slate-800">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+          <div class="relative flex-1">
+            <input id="inputSearchSurah" type="text" placeholder="ابحث باسم السورة أو رقمها (مثال: الكهف، يس، الملك، 18)..." class="w-full rounded-xl bg-stone-100 dark:bg-slate-800 border border-stone-300 dark:border-slate-700 px-3.5 py-2 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+          </div>
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+            <button id="filterAllSurahs" type="button" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shrink-0">الكل (114)</button>
+            <button id="filterOfflineSurahs" type="button" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-stone-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shrink-0">المحملة أوفلاين</button>
+            <button id="filterMakkiSurahs" type="button" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-stone-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shrink-0">مكية</button>
+            <button id="filterMadaniSurahs" type="button" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-stone-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shrink-0">مدنية</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="surahsGridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5"></div>
+    </section>
+
+    <!-- ==================== VIEW 3: OFFLINE PRE-DOWNLOAD MANAGER ==================== -->
+    <section id="viewOffline" class="hidden space-y-3">
+      <div class="flex items-center justify-between bg-emerald-900 text-white px-3.5 py-2.5 rounded-2xl shadow-sm">
+        <span class="font-extrabold text-sm text-amber-300">📥 التحميل المسبق للعمل بدون إنترنت</span>
+        <button type="button" data-back-reader="1" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-xs shadow-sm hover:bg-amber-300 transition">
+          <span>→</span>
+          <span>رجوع للسورة</span>
+        </button>
+      </div>
+      <!-- Main Offline Pre-Download Card -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-stone-200 dark:border-slate-800 space-y-4">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-extrabold text-emerald-800 dark:text-emerald-400 flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span>مدير التحميل المسبق لجميع السور (للعمل بدون إنترنت)</span>
+            </h2>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">
+              يتم حفظ نصوص الآيات والتلاوات الصوتية مباشرة في ذاكرة الهاتف الدائمة (<code class="font-mono text-emerald-600">IndexedDB</code>) لتعمل معك في أي وقت بدون الحاجة لاتصال بالإنترنت.
+            </p>
+          </div>
+
+          <div class="bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 rounded-xl px-3.5 py-2.5 text-xs space-y-1">
+            <div class="font-bold text-emerald-900 dark:text-emerald-300">حالة الذاكرة المحلية وحجم التحميل الفعلي:</div>
+            <div id="storageStatsText" class="text-emerald-700 dark:text-emerald-400 font-extrabold">نصوص السور المحفوظة: 11 / 114 | الصوتيات: 0 (0.0 MB)</div>
+            <div class="text-[11px] text-slate-600 dark:text-slate-400">
+              • حجم نصوص المصحف كاملاً (114 سورة): <strong>~1.8 ميجابايت</strong> فقط<br/>
+              • حجم صوتيات جزء عمّ (37 سورة): <strong>~38 ميجابايت</strong><br/>
+              • حجم المصحف الصوتي كاملاً (114 سورة - 128kbps): <strong>~1.35 جيجابايت</strong> للقارئ الواحد
+            </div>
+          </div>
+        </div>
+
+        <!-- Batch Download Action Buttons -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <button id="btnDownloadAllTexts" type="button" class="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold transition shadow-sm text-center">
+            <span class="text-sm">1. تحميل نصوص جميع السور (114 سورة)</span>
+            <span class="text-[11px] text-emerald-200 mt-1">يحفظ المصحف العثماني كاملاً للقراءة والبحث بدون إنترنت</span>
+          </button>
+
+          <button id="btnDownloadJuzAmmaAudio" type="button" class="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold transition shadow-sm text-center">
+            <span class="text-sm">2. تحميل صوتيات جزء عمّ والملك والكهف ويس</span>
+            <span class="text-[11px] text-slate-900/80 mt-1">تحميل سريع لأكثر السور تلاوة وحفظاً بصوت القارئ المختار</span>
+          </button>
+
+          <button id="btnDownloadAll114Audio" type="button" class="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-teal-800 hover:bg-teal-900 text-white font-bold transition shadow-sm text-center">
+            <span class="text-sm">3. تحميل صوتيات المصحف كاملاً (114 سورة)</span>
+            <span class="text-[11px] text-teal-200 mt-1">جدولة تحميل جميع السور تباعاً للقارئ الحالي بدون إنترنت</span>
+          </button>
+        </div>
+
+        <!-- Active Download Progress Box -->
+        <div id="downloadProgressCard" class="hidden rounded-2xl bg-stone-100 dark:bg-slate-800/90 p-3.5 border border-stone-300 dark:border-slate-700 space-y-2">
+          <div class="flex items-center justify-between text-xs font-bold">
+            <span id="downloadProgressTitle" class="text-emerald-700 dark:text-emerald-400">جاري التحميل المسبق...</span>
+            <div class="flex items-center gap-2">
+              <span id="downloadProgressPercent" class="font-extrabold">0%</span>
+              <button id="btnCancelBatchDownload" type="button" class="px-2.5 py-1 rounded-lg bg-rose-600 text-white text-[11px] hover:bg-rose-700">إيقاف</button>
+            </div>
+          </div>
+          <div class="w-full h-2.5 bg-stone-300 dark:bg-slate-700 rounded-full overflow-hidden">
+            <div id="downloadProgressBar" class="h-full bg-gradient-to-r from-emerald-500 to-amber-400 transition-all duration-300" style="width: 0%"></div>
+          </div>
+          <p id="downloadProgressDetail" class="text-[11px] text-slate-600 dark:text-slate-400"></p>
+        </div>
+
+        <!-- Local MP3 Files Import (Zero-Internet Local Folder Option) -->
+        <div class="pt-3 border-t border-stone-200 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-800 dark:text-slate-200">استيراد ملفات MP3 محلية من ذاكرة الهاتف مباشرة</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+              إذا كانت لديك ملفات صوتية محملة مسبقاً على هاتفك (بأسماء مثل <code class="font-mono">001.mp3</code> أو <code class="font-mono">001001.mp3</code>)، يمكنك ربطها فوراً بدون إنترنت:
+            </p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <label for="inputLocalMp3Files" class="cursor-pointer px-3.5 py-2 rounded-xl bg-stone-200 dark:bg-slate-800 hover:bg-stone-300 dark:hover:bg-slate-700 text-xs font-bold transition inline-flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+              <span>اختيار ملفات صوتية من الجهاز</span>
+            </label>
+            <input id="inputLocalMp3Files" type="file" accept="audio/*" multiple class="hidden" />
+            <button id="btnClearOfflineCache" type="button" class="px-3 py-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 text-xs font-bold hover:bg-rose-100 transition">
+              مسح التخزين المؤقت
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Individual Surahs Offline Download List -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-stone-200 dark:border-slate-800">
+        <h3 class="text-sm font-extrabold mb-3 text-slate-700 dark:text-slate-300">جدول تحميل السور فردياً (ياسر الدوسري / محمد اللحيدان)</h3>
+        <div id="offlineSurahTableContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-96 overflow-y-auto pr-1"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- APK / Phone Installation Modal -->
+  <div id="apkInstallModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-3">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-5 shadow-2xl border border-emerald-500/40 space-y-3.5 text-right">
+      <div class="flex items-center justify-between border-b border-stone-200 dark:border-slate-800 pb-2.5">
+        <h3 class="font-extrabold text-base text-emerald-800 dark:text-emerald-400">📲 تثبيت التطبيق على هاتفك (APK / WebAPK)</h3>
+        <button id="btnCloseApkModal" type="button" class="px-2.5 py-1 rounded-xl bg-stone-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold">إغلاق ✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs leading-relaxed text-slate-700 dark:text-slate-300">
+        <div class="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 space-y-1.5">
+          <p class="font-extrabold text-emerald-900 dark:text-emerald-300">1. التثبيت المباشر كحزمة تطبيق أندرويد (WebAPK بدون كمبيوتر):</p>
+          <p>يدعم هذا التطبيق تقنية <strong>Android WebAPK</strong>؛ عند فتحه في متصفح Chrome على هاتفك الأندرويد والضغط على الزر أدناه (أو من قائمة المتصفح ⋮ اختيار <strong>"تثبيت التطبيق / Install App"</strong>)، يقوم نظام أندرويد بتوليد وتثبيت التطبيق بأيقونة مستقلة في قائمة تطبيقات هاتفك ويعمل بدون إنترنت.</p>
+          <button id="btnTriggerNativeInstall" type="button" class="w-full mt-1.5 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-sm transition">
+            تثبيت مباشر على الهاتف الآن
+          </button>
+        </div>
+
+        <div class="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 space-y-1.5">
+          <p class="font-extrabold text-amber-900 dark:text-amber-300">2. استخراج ملف <code class="font-mono">.apk</code> مستقل (من الحزمة المرفقة):</p>
+          <p>أرفقت لك في المحادثة ملف <strong><code class="font-mono">quran_android_apk_project.zip</code></strong> الذي يحتوي على مشروع تطبيق أندرويد الأصلي (<code class="font-mono">Android WebView APK</code>) جاهزاً لتحويله إلى ملف <code class="font-mono">APK</code> بضغطة واحدة عبر:</p>
+          <ul class="list-disc list-inside space-y-0.5 text-[11px]">
+            <li>تطبيق <strong>Website 2 APK Builder</strong> أو تطبيق <strong>HopWeb</strong> على الهاتف مباشرة.</li>
+            <li>أو رفعه على <strong>GitHub</strong> ليقوم ملف البناء التلقائي المدمج (<code class="font-mono">build_apk.yml</code>) بإنتاج ملف <code class="font-mono">app-release.apk</code> جاهز للتحميل.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-2xl bg-slate-900/95 text-white text-xs font-bold shadow-xl border border-emerald-500/40 flex items-center gap-2">
+    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+    <span id="toastMessage">تم الحفظ بنجاح</span>
+  </div>
+
+  <!-- Sticky Mobile Bottom Audio Player + Mobile Navigation Bar -->
+  <footer class="fixed bottom-0 inset-x-0 z-40 max-w-[440px] mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-stone-200 dark:border-slate-800 shadow-2xl">
+    <div class="px-3 pt-2 pb-1.5 space-y-1.5">
+      <!-- Progress Slider & Timestamps -->
+      <div class="flex items-center gap-2.5 text-[11px] font-bold text-slate-500 dark:text-slate-400">
+        <span id="playerCurrentTime" class="w-10 text-left font-mono">00:00</span>
+        <input id="playerSeekSlider" type="range" min="0" max="100" value="0" class="flex-1 h-1.5 bg-stone-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-600" />
+        <span id="playerDurationTime" class="w-10 text-right font-mono">00:00</span>
+      </div>
+
+      <!-- Player Main Controls Row -->
+      <div class="flex items-center justify-between gap-2">
+        <!-- Active Surah & Ayah Info -->
+        <div class="flex items-center gap-2.5 min-w-0 flex-1">
+          <div id="waveIndicator" class="w-9 h-9 rounded-xl bg-emerald-600/15 dark:bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center gap-0.5 shrink-0">
+            <span class="w-1 h-3.5 bg-emerald-600 dark:bg-emerald-400 rounded-full wave-bar"></span>
+            <span class="w-1 h-4 bg-emerald-600 dark:bg-emerald-400 rounded-full wave-bar"></span>
+            <span class="w-1 h-2.5 bg-emerald-600 dark:bg-emerald-400 rounded-full wave-bar"></span>
+            <span class="w-1 h-3.5 bg-emerald-600 dark:bg-emerald-400 rounded-full wave-bar"></span>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <p id="playerNowPlayingTitle" class="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white truncate">سورة الفاتحة • الآية 1</p>
+              <span id="playerLoopCounterBadge" class="hidden text-[10px] px-1.5 py-0.5 rounded bg-amber-400/25 text-amber-800 dark:text-amber-300 font-extrabold">تكرار 1/3</span>
+            </div>
+            <p id="playerNowPlayingSub" class="text-[11px] text-slate-500 dark:text-slate-400 truncate">الشيخ ياسر الدوسري • جاهز للتشغيل</p>
+          </div>
+        </div>
+
+        <!-- Transport Controls -->
+        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <!-- Previous Ayah -->
+          <button id="btnPrevAyah" type="button" title="الآية السابقة" class="p-2 rounded-xl bg-stone-100 dark:bg-slate-800 hover:bg-stone-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+
+          <!-- Play / Pause -->
+          <button id="btnPlayPause" type="button" title="تشغيل / إيقاف مؤقت" class="w-11 h-11 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center shadow-md shadow-emerald-600/25 transition">
+            <svg id="iconPlay" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="iconPause" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+
+          <!-- Next Ayah -->
+          <button id="btnNextAyah" type="button" title="الآية التالية" class="p-2 rounded-xl bg-stone-100 dark:bg-slate-800 hover:bg-stone-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+        </div>
+
+        <!-- Speed & Playback Mode Controls -->
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button id="btnSpeedToggle" type="button" title="سرعة التلاوة" class="px-2.5 py-1.5 rounded-xl bg-stone-100 dark:bg-slate-800 text-xs font-extrabold text-emerald-700 dark:text-emerald-400 border border-stone-200 dark:border-slate-700">
+            1.0x
+          </button>
+        </div>
+      </div>
+      <!-- Mobile App Bottom Navigation Tabs (دائماً ظاهرة للتنقل والرجوع بضغطة واحدة) -->
+      <nav class="grid grid-cols-3 gap-1 pt-1.5 border-t border-stone-200/80 dark:border-slate-800 text-xs font-extrabold">
+        <button id="tabBtnReader" type="button" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-emerald-700 text-white shadow-sm transition">
+          <span>📖</span>
+          <span>سورة القرآن</span>
+        </button>
+        <button id="tabBtnSurahs" type="button" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-stone-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 transition">
+          <span>📋</span>
+          <span>فهرس السور</span>
+        </button>
+        <button id="tabBtnOffline" type="button" class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-stone-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 transition">
+          <span>📥</span>
+          <span>التحميل</span>
+          <span id="offlineCountBadge" class="px-1.5 py-0.2 rounded-full bg-amber-400 text-slate-950 text-[10px] font-extrabold">11</span>
+        </button>
+      </nav>
+    </div>
+    <audio id="quranAudioElement" preload="auto"></audio>
+  </footer>
+
+  <script>
+    // ============================================================================
+    // 1. COMPLETE 114 SURAHS METADATA (100% Built-in Offline)
+    // ============================================================================
+    const SURAHS_META = [
+      { id: 1, name: "الفاتحة", ayahs: 7, type: "مكية", page: 1 },
+      { id: 2, name: "البقرة", ayahs: 286, type: "مدنية", page: 2 },
+      { id: 3, name: "آل عمران", ayahs: 200, type: "مدنية", page: 50 },
+      { id: 4, name: "النساء", ayahs: 176, type: "مدنية", page: 77 },
+      { id: 5, name: "المائدة", ayahs: 120, type: "مدنية", page: 106 },
+      { id: 6, name: "الأنعام", ayahs: 165, type: "مكية", page: 128 },
+      { id: 7, name: "الأعراف", ayahs: 206, type: "مكية", page: 151 },
+      { id: 8, name: "الأنفال", ayahs: 75, type: "مدنية", page: 177 },
+      { id: 9, name: "التوبة", ayahs: 129, type: "مدنية", page: 187 },
+      { id: 10, name: "يونس", ayahs: 109, type: "مكية", page: 208 },
+      { id: 11, name: "هود", ayahs: 123, type: "مكية", page: 221 },
+      { id: 12, name: "يوسف", ayahs: 111, type: "مكية", page: 235 },
+      { id: 13, name: "الرعد", ayahs: 43, type: "مدنية", page: 249 },
+      { id: 14, name: "إبراهيم", ayahs: 52, type: "مكية", page: 255 },
+      { id: 15, name: "الحجر", ayahs: 99, type: "مكية", page: 262 },
+      { id: 16, name: "النحل", ayahs: 128, type: "مكية", page: 267 },
+      { id: 17, name: "الإسراء", ayahs: 111, type: "مكية", page: 282 },
+      { id: 18, name: "الكهف", ayahs: 110, type: "مكية", page: 293 },
+      { id: 19, name: "مريم", ayahs: 98, type: "مكية", page: 305 },
+      { id: 20, name: "طه", ayahs: 135, type: "مكية", page: 312 },
+      { id: 21, name: "الأنبياء", ayahs: 112, type: "مكية", page: 322 },
+      { id: 22, name: "الحج", ayahs: 78, type: "مدنية", page: 332 },
+      { id: 23, name: "المؤمنون", ayahs: 118, type: "مكية", page: 342 },
+      { id: 24, name: "النور", ayahs: 64, type: "مدنية", page: 350 },
+      { id: 25, name: "الفرقان", ayahs: 77, type: "مكية", page: 359 },
+      { id: 26, name: "الشعراء", ayahs: 227, type: "مكية", page: 367 },
+      { id: 27, name: "النمل", ayahs: 93, type: "مكية", page: 377 },
+      { id: 28, name: "القصص", ayahs: 88, type: "مكية", page: 385 },
+      { id: 29, name: "العنكبوت", ayahs: 69, type: "مكية", page: 396 },
+      { id: 30, name: "الروم", ayahs: 60, type: "مكية", page: 404 },
+      { id: 31, name: "لقمان", ayahs: 34, type: "مكية", page: 411 },
+      { id: 32, name: "السجدة", ayahs: 30, type: "مكية", page: 415 },
+      { id: 33, name: "الأحزاب", ayahs: 73, type: "مدنية", page: 418 },
+      { id: 34, name: "سبأ", ayahs: 54, type: "مكية", page: 428 },
+      { id: 35, name: "فاطر", ayahs: 45, type: "مكية", page: 434 },
+      { id: 36, name: "يس", ayahs: 83, type: "مكية", page: 440 },
+      { id: 37, name: "الصافات", ayahs: 182, type: "مكية", page: 446 },
+      { id: 38, name: "ص", ayahs: 88, type: "مكية", page: 453 },
+      { id: 39, name: "الزمر", ayahs: 75, type: "مكية", page: 458 },
+      { id: 40, name: "غافر", ayahs: 85, type: "مكية", page: 467 },
+      { id: 41, name: "فصلت", ayahs: 54, type: "مكية", page: 477 },
+      { id: 42, name: "الشورى", ayahs: 53, type: "مكية", page: 483 },
+      { id: 43, name: "الزخرف", ayahs: 89, type: "مكية", page: 489 },
+      { id: 44, name: "الدخان", ayahs: 59, type: "مكية", page: 496 },
+      { id: 45, name: "الجاثية", ayahs: 37, type: "مكية", page: 499 },
+      { id: 46, name: "الأحقاف", ayahs: 35, type: "مكية", page: 502 },
+      { id: 47, name: "محمد", ayahs: 38, type: "مدنية", page: 507 },
+      { id: 48, name: "الفتح", ayahs: 29, type: "مدنية", page: 511 },
+      { id: 49, name: "الحجرات", ayahs: 18, type: "مدنية", page: 515 },
+      { id: 50, name: "ق", ayahs: 45, type: "مكية", page: 518 },
+      { id: 51, name: "الذاريات", ayahs: 60, type: "مكية", page: 520 },
+      { id: 52, name: "الطور", ayahs: 49, type: "مكية", page: 523 },
+      { id: 53, name: "النجم", ayahs: 62, type: "مكية", page: 526 },
+      { id: 54, name: "القمر", ayahs: 55, type: "مكية", page: 528 },
+      { id: 55, name: "الرحمن", ayahs: 78, type: "مدنية", page: 531 },
+      { id: 56, name: "الواقعة", ayahs: 96, type: "مكية", page: 534 },
+      { id: 57, name: "الحديد", ayahs: 29, type: "مدنية", page: 537 },
+      { id: 58, name: "المجادلة", ayahs: 22, type: "مدنية", page: 542 },
+      { id: 59, name: "الحشر", ayahs: 24, type: "مدنية", page: 545 },
+      { id: 60, name: "الممتحنة", ayahs: 13, type: "مدنية", page: 549 },
+      { id: 61, name: "الصف", ayahs: 14, type: "مدنية", page: 551 },
+      { id: 62, name: "الجمعة", ayahs: 11, type: "مدنية", page: 553 },
+      { id: 63, name: "المنافقون", ayahs: 11, type: "مدنية", page: 554 },
+      { id: 64, name: "التغابن", ayahs: 18, type: "مدنية", page: 556 },
+      { id: 65, name: "الطلاق", ayahs: 12, type: "مدنية", page: 558 },
+      { id: 66, name: "التحريم", ayahs: 12, type: "مدنية", page: 560 },
+      { id: 67, name: "الملك", ayahs: 30, type: "مكية", page: 562 },
+      { id: 68, name: "القلم", ayahs: 52, type: "مكية", page: 564 },
+      { id: 69, name: "الحاقة", ayahs: 52, type: "مكية", page: 566 },
+      { id: 70, name: "المعارج", ayahs: 44, type: "مكية", page: 568 },
+      { id: 71, name: "نوح", ayahs: 28, type: "مكية", page: 570 },
+      { id: 72, name: "الجن", ayahs: 28, type: "مكية", page: 572 },
+      { id: 73, name: "المزمل", ayahs: 20, type: "مكية", page: 574 },
+      { id: 74, name: "المدثر", ayahs: 56, type: "مكية", page: 575 },
+      { id: 75, name: "القيامة", ayahs: 40, type: "مكية", page: 577 },
+      { id: 76, name: "الإنسان", ayahs: 31, type: "مدنية", page: 578 },
+      { id: 77, name: "المرسلات", ayahs: 50, type: "مكية", page: 580 },
+      { id: 78, name: "النبأ", ayahs: 40, type: "مكية", page: 582 },
+      { id: 79, name: "النازعات", ayahs: 46, type: "مكية", page: 583 },
+      { id: 80, name: "عبس", ayahs: 42, type: "مكية", page: 585 },
+      { id: 81, name: "التكوير", ayahs: 29, type: "مكية", page: 586 },
+      { id: 82, name: "الانفطار", ayahs: 19, type: "مكية", page: 587 },
+      { id: 83, name: "المطففين", ayahs: 36, type: "مكية", page: 587 },
+      { id: 84, name: "الانشقاق", ayahs: 25, type: "مكية", page: 589 },
+      { id: 85, name: "البروج", ayahs: 22, type: "مكية", page: 590 },
+      { id: 86, name: "الطارق", ayahs: 17, type: "مكية", page: 591 },
+      { id: 87, name: "الأعلى", ayahs: 19, type: "مكية", page: 591 },
+      { id: 88, name: "الغاشية", ayahs: 26, type: "مكية", page: 592 },
+      { id: 89, name: "الفجر", ayahs: 30, type: "مكية", page: 593 },
+      { id: 90, name: "البلد", ayahs: 20, type: "مكية", page: 594 },
+      { id: 91, name: "الشمس", ayahs: 15, type: "مكية", page: 595 },
+      { id: 92, name: "الليل", ayahs: 21, type: "مكية", page: 595 },
+      { id: 93, name: "الضحى", ayahs: 11, type: "مكية", page: 596 },
+      { id: 94, name: "الشرح", ayahs: 8, type: "مكية", page: 596 },
+      { id: 95, name: "التين", ayahs: 8, type: "مكية", page: 597 },
+      { id: 96, name: "العلق", ayahs: 19, type: "مكية", page: 597 },
+      { id: 97, name: "القدر", ayahs: 5, type: "مكية", page: 598 },
+      { id: 98, name: "البينة", ayahs: 8, type: "مدنية", page: 598 },
+      { id: 99, name: "الزلزلة", ayahs: 8, type: "مدنية", page: 599 },
+      { id: 100, name: "العاديات", ayahs: 11, type: "مكية", page: 599 },
+      { id: 101, name: "القارعة", ayahs: 11, type: "مكية", page: 600 },
+      { id: 102, name: "التكاثر", ayahs: 8, type: "مكية", page: 600 },
+      { id: 103, name: "العصر", ayahs: 3, type: "مكية", page: 601 },
+      { id: 104, name: "الهمزة", ayahs: 9, type: "مكية", page: 601 },
+      { id: 105, name: "الفيل", ayahs: 5, type: "مكية", page: 601 },
+      { id: 106, name: "قريش", ayahs: 4, type: "مكية", page: 602 },
+      { id: 107, name: "الماعون", ayahs: 7, type: "مكية", page: 602 },
+      { id: 108, name: "الكوثر", ayahs: 3, type: "مكية", page: 602 },
+      { id: 109, name: "الكافرون", ayahs: 6, type: "مكية", page: 603 },
+      { id: 110, name: "النصر", ayahs: 3, type: "مدنية", page: 603 },
+      { id: 111, name: "المسد", ayahs: 5, type: "مكية", page: 603 },
+      { id: 112, name: "الإخلاص", ayahs: 4, type: "مكية", page: 604 },
+      { id: 113, name: "الفلق", ayahs: 5, type: "مكية", page: 604 },
+      { id: 114, name: "الناس", ayahs: 6, type: "مكية", page: 604 }
+    ];
+
+    // Pre-bundled zero-network Uthmani texts for instant offline startup
+    const BUILTIN_SURAHS_TEXT = {
+      1: [
+        "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+        "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ",
+        "ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+        "مَـٰلِكِ يَوْمِ ٱلدِّينِ",
+        "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+        "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
+        "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ"
+      ],
+      93: [
+        "وَٱلضُّحَىٰ",
+        "وَٱلَّيْلِ إِذَا سَجَىٰ",
+        "مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ",
+        "وَلَلْـَٔاخِرَةُ خَيْرٌ لَّكَ مِنَ ٱلْأُولَىٰ",
+        "وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰٓ",
+        "أَلَمْ يَجِدْكَ يَتِيمًا فَـَٔاوَىٰ",
+        "وَوَجَدَكَ ضَآلًّا فَهَدَىٰ",
+        "وَوَجَدَكَ عَآئِلًا فَأَغْنَىٰ",
+        "فَأَمَّا ٱلْيَتِيمَ فَلَا تَقْهَرْ",
+        "وَأَمَّا ٱلسَّآئِلَ فَلَا تَنْهَرْ",
+        "وَأَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ"
+      ],
+      94: [
+        "أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ",
+        "وَوَضَعْنَا عَنكَ وِزْرَكَ",
+        "ٱلَّذِىٓ أَنقَضَ ظَهْرَكَ",
+        "وَرَفَعْنَا لَكَ ذِكْرَكَ",
+        "فَإِنَّ مَعَ ٱلْعُسْرِ يُسْرًا",
+        "إِنَّ مَعَ ٱلْعُسْرِ يُسْرًا",
+        "فَإِذَا فَرَغْتَ فَٱنصَبْ",
+        "وَإِلَىٰ رَبِّكَ فَٱرْغَب"
+      ],
+      97: [
+        "إِنَّآ أَنزَلْنَـٰهُ فِى لَيْلَةِ ٱلْقَدْرِ",
+        "وَمَآ أَدْرَىٰكَ مَا لَيْلَةُ ٱلْقَدْرِ",
+        "لَيْلَةُ ٱلْقَدْرِ خَيْرٌ مِّنْ أَلْفِ شَهْرٍ",
+        "تَنَزَّلُ ٱلْمَلَـٰٓئِكَةُ وَٱلرُّوحُ فِيهَا بِإِذْنِ رَبِّهِم مِّن كُلِّ أَمْرٍ",
+        "سَلَـٰمٌ هِىَ حَتَّىٰ مَطْلَعِ ٱلْفَجْرِ"
+      ],
+      103: [
+        "وَٱلْعَصْرِ",
+        "إِنَّ ٱلْإِنسَـٰنَ لَفِى خُسْرٍ",
+        "إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ وَتَوَاصَوْا۟ بِٱلْحَقِّ وَتَوَاصَوْا۟ بِٱلصَّبْرِ"
+      ],
+      108: [
+        "إِنَّآ أَعْطَيْنَـٰكَ ٱلْكَوْثَرَ",
+        "فَصَلِّ لِرَبِّكَ وَٱنْحَرْ",
+        "إِنَّ شَانِئَكَ هُوَ ٱلْأَبْتَرُ"
+      ],
+      109: [
+        "قُلْ يَـٰٓأَيُّهَا ٱلْكَـٰفِرُونَ",
+        "لَآ أَعْبُدُ مَا تَعْبُدُونَ",
+        "وَلَآ أَنتُمْ عَـٰبِدُونَ مَآ أَعْبُدُ",
+        "وَلَآ أَنَا۠ عَابِدٌ مَّا عَبَدتُّمْ",
+        "وَلَآ أَنتُمْ عَـٰبِدُونَ مَآ أَعْبُدُ",
+        "لَكُمْ دِينُكُمْ وَلِىَ دِينِ"
+      ],
+      110: [
+        "إِذَا جَآءَ نَصْرُ ٱللَّهِ وَٱلْفَتْحُ",
+        "وَرَأَيْتَ ٱلنَّاسَ يَدْخُلُونَ فِى دِينِ ٱللَّهِ أَفْوَاجًا",
+        "فَسَبِّحْ بِحَمْدِ رَبِّكَ وَٱسْتَغْفِرْهُ ۚ إِنَّهُۥ كَانَ تَوَّابًۢا"
+      ],
+      112: [
+        "قُلْ هُوَ ٱللَّهُ أَحَدٌ",
+        "ٱللَّهُ ٱلصَّمَدُ",
+        "لَمْ يَلِدْ وَلَمْ يُولَدْ",
+        "وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ"
+      ],
+      113: [
+        "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",
+        "مِن شَرِّ مَا خَلَقَ",
+        "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ",
+        "وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ",
+        "وَمِن شَرِّ حَاسِدٍ إِذَا حسَدَ"
+      ],
+      114: [
+        "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ",
+        "مَلِكِ ٱلنَّاسِ",
+        "إِلَـٰهِ ٱلنَّاسِ",
+        "مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ",
+        "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ",
+        "مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ"
+      ]
+    };
+
+    // ============================================================================
+    // 2. RECITERS CONFIGURATION (Yasser Al-Dosari & Muhammad Al-Luhaidan)
+    // ============================================================================
+    const RECITERS = {
+      dosari: {
+        id: "dosari",
+        name: "الشيخ ياسر الدوسري",
+        mode: "surah_sync", // Full Continuous Surah MP3 (تلاوة السورة كاملة متصلة بدون تقطيع)
+        everyAyahFolder: "Yasser_Ad-Dussary_128kbps",
+        mp3QuranPath: "server11.mp3quran.net/yasser",
+        quranicAudioServer: "https://download.quranicaudio.com/quran/yasser_ad-dussary/"
+      },
+      luhaidan: {
+        id: "luhaidan",
+        name: "الشيخ محمد اللحيدان",
+        mode: "surah_sync", // Full Continuous Surah MP3 (تلاوة السورة كاملة متصلة بدون تقطيع)
+        mp3QuranPath: "server8.mp3quran.net/lhdan",
+        quranicAudioServer: "https://download.quranicaudio.com/quran/muhammad_al-luhaidan/"
+      }
+    };
+
+    // ============================================================================
+    // 3. APPLICATION STATE & INDEXEDDB OFFLINE ENGINE
+    // ============================================================================
+    const state = {
+      reciterId: "dosari",
+      currentSurahId: 1,
+      currentAyahNum: 1,
+      currentSurahVerses: [],
+      isPlaying: false,
+      playbackSpeed: 1.0,
+      fontSizeRem: 1.65,
+      darkMode: false,
+      ayahRepeatTarget: 1,
+      ayahRepeatCounter: 0,
+      surahRepeatMode: "continuous", // continuous (افتراضي: يقرأ السورة التالية تلقائياً) | surah | range | none
+      rangeStart: 1,
+      rangeEnd: 7,
+      surahFilter: "all", // all | offline | makki | madani
+      displayMode: "full_surah", // full_surah (السورة كاملة متصلة) | cards (بطاقات منفصلة)
+      strictOfflineMode: false, // للتأكد من التشغيل بدون إنترنت من الذاكرة فقط
+      cachedBytesTotal: 0,
+      surahTimings: [], // Start/end seconds for each Ayah in Surah-mode
+      cachedTextSurahs: new Set(Object.keys(BUILTIN_SURAHS_TEXT).map(Number)),
+      cachedAudioKeys: new Set(),
+      localImportedBlobs: new Map(), // key -> Blob URL
+      batchCancelRequested: false
+    };
+
+    const DB_NAME = "QuranOfflineReciterDB_v1";
+    let dbInstance = null;
+
+    function openOfflineDB() {
+      return new Promise((resolve) => {
+        if (dbInstance) return resolve(dbInstance);
+        if (!window.indexedDB) return resolve(null);
+        try {
+          const req = indexedDB.open(DB_NAME, 1);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains("surah_texts")) {
+              db.createObjectStore("surah_texts", { keyPath: "surahId" });
+            }
+            if (!db.objectStoreNames.contains("audio_blobs")) {
+              db.createObjectStore("audio_blobs", { keyPath: "key" });
+            }
+          };
+          req.onsuccess = (e) => {
+            dbInstance = e.target.result;
+            resolve(dbInstance);
+          };
+          req.onerror = () => resolve(null);
+        } catch (err) {
+          resolve(null);
+        }
+      });
+    }
+
+    async function loadCachedKeysInventory() {
+      const db = await openOfflineDB();
+      if (!db) return;
+      await new Promise((resolve) => {
+        try {
+          const tx = db.transaction(["surah_texts", "audio_blobs"], "readonly");
+          const textStore = tx.objectStore("surah_texts");
+          const audioStore = tx.objectStore("audio_blobs");
+          const req1 = textStore.getAllKeys();
+          const req2 = audioStore.getAll();
+          req1.onsuccess = () => {
+            (req1.result || []).forEach(k => state.cachedTextSurahs.add(Number(k)));
+          };
+          req2.onsuccess = () => {
+            let bytes = 0;
+            (req2.result || []).forEach(item => {
+              state.cachedAudioKeys.add(String(item.key));
+              if (item.blob && item.blob.size) bytes += item.blob.size;
+            });
+            state.cachedBytesTotal = bytes;
+          };
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        } catch (e) {
+          resolve();
+        }
+      });
+      updateOfflineBadgesUI();
+    }
+
+    async function getSurahTextOfflineOrFetch(surahId) {
+      // 1. Check IndexedDB first
+      const db = await openOfflineDB();
+      if (db) {
+        const cached = await new Promise((resolve) => {
+          try {
+            const tx = db.transaction("surah_texts", "readonly");
+            const req = tx.objectStore("surah_texts").get(surahId);
+            req.onsuccess = () => resolve(req.result ? req.result.verses : null);
+            req.onerror = () => resolve(null);
+          } catch (e) { resolve(null); }
+        });
+        if (cached && cached.length) {
+          state.cachedTextSurahs.add(surahId);
+          return cached;
+        }
+      }
+
+      // 2. Check Built-in bundle
+      if (BUILTIN_SURAHS_TEXT[surahId]) {
+        return BUILTIN_SURAHS_TEXT[surahId];
+      }
+
+      // 3. Fetch from AlQuran Cloud API and store in IndexedDB
+      try {
+        const res = await fetch(`https://api.alquran.cloud/v1/surah/${surahId}/quran-uthmani`);
+        const json = await res.json();
+        if (json && json.data && Array.isArray(json.data.ayahs)) {
+          const verses = json.data.ayahs.map((a, idx) => {
+            let txt = a.text;
+            if (surahId !== 1 && surahId !== 9 && idx === 0) {
+              txt = txt.replace(/^بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ\s*/, "").trim();
+            }
+            return txt;
+          });
+          await saveSurahTextToDB(surahId, verses);
+          return verses;
+        }
+      } catch (e) {
+        // Offline fallback placeholder with exact Ayah count so audio playback & repeat still work offline
+      }
+
+      const meta = SURAHS_META.find(s => s.id === surahId);
+      const count = meta ? meta.ayahs : 7;
+      return Array.from({ length: count }, (_, i) => `الآية رقم ${i + 1} من سورة ${meta ? meta.name : ""} (قم بتحميل نصوص المصحف للعرض بدون إنترنت)`);
+    }
+
+    async function saveSurahTextToDB(surahId, verses) {
+      state.cachedTextSurahs.add(surahId);
+      const db = await openOfflineDB();
+      if (!db) return;
+      return new Promise((resolve) => {
+        try {
+          const tx = db.transaction("surah_texts", "readwrite");
+          tx.objectStore("surah_texts").put({ surahId, verses });
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        } catch (e) { resolve(); }
+      });
+    }
+
+    async function saveAudioBlobToDB(key, blob) {
+      if (!state.cachedAudioKeys.has(key) && blob && blob.size) {
+        state.cachedBytesTotal += blob.size;
+      }
+      state.cachedAudioKeys.add(key);
+      const db = await openOfflineDB();
+      if (!db) return;
+      return new Promise((resolve) => {
+        try {
+          const tx = db.transaction("audio_blobs", "readwrite");
+          tx.objectStore("audio_blobs").put({ key, blob });
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        } catch (e) { resolve(); }
+      });
+    }
+
+    async function getAudioBlobUrlFromDB(key) {
+      if (state.localImportedBlobs.has(key)) {
+        return state.localImportedBlobs.get(key);
+      }
+      const db = await openOfflineDB();
+      if (!db) return null;
+      return new Promise((resolve) => {
+        try {
+          const tx = db.transaction("audio_blobs", "readonly");
+          const req = tx.objectStore("audio_blobs").get(key);
+          req.onsuccess = () => {
+            if (req.result && req.result.blob) {
+              resolve(URL.createObjectURL(req.result.blob));
+            } else {
+              resolve(null);
+            }
+          };
+          req.onerror = () => resolve(null);
+        } catch (e) { resolve(null); }
+      });
+    }
+
+    function pad3(n) {
+      return String(n).padStart(3, "0");
+    }
+
+    function isSurahAudioCached(reciterId, surahId) {
+      const s3 = pad3(surahId);
+      const fullKey = `${reciterId}_surah_${s3}`;
+      const firstAyahKey = `${reciterId}_ayah_${s3}001`;
+      return state.cachedAudioKeys.has(fullKey) || state.cachedAudioKeys.has(firstAyahKey);
+    }
+
+    // ============================================================================
+    // 4. UI RENDERING & SYNCHRONIZED AYAH DISPLAY
+    // ============================================================================
+    const audioEl = document.getElementById("quranAudioElement");
+
+    function showToast(msg) {
+      const toast = document.getElementById("toastNotification");
+      const text = document.getElementById("toastMessage");
+      text.textContent = msg;
+      toast.classList.remove("hidden");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.add("hidden");
+      }, 3200);
+    }
+
+    function populateSurahDropdown() {
+      const sel = document.getElementById("selectSurah");
+      sel.innerHTML = SURAHS_META.map(s =>
+        `<option value="${s.id}">${s.id}. سورة ${s.name} (${s.type} - ${s.ayahs} آية)</option>`
+      ).join("");
+      sel.value = String(state.currentSurahId);
+    }
+
+    function populateAyahDropdown(ayahCount) {
+      const sel = document.getElementById("selectAyah");
+      sel.innerHTML = Array.from({ length: ayahCount }, (_, i) =>
+        `<option value="${i + 1}">الآية ${i + 1}</option>`
+      ).join("");
+      sel.value = String(state.currentAyahNum);
+
+      const inStart = document.getElementById("inputRangeStart");
+      const inEnd = document.getElementById("inputRangeEnd");
+      inStart.max = String(ayahCount);
+      inEnd.max = String(ayahCount);
+      inStart.value = "1";
+      inEnd.value = String(ayahCount);
+      state.rangeStart = 1;
+      state.rangeEnd = ayahCount;
+    }
+
+    async function loadSurah(surahId, startAyah = 1, autoPlay = false) {
+      state.currentSurahId = Number(surahId);
+      state.currentAyahNum = Number(startAyah);
+      state.ayahRepeatCounter = 0;
+
+      const meta = SURAHS_META.find(s => s.id === state.currentSurahId) || SURAHS_META[0];
+      document.getElementById("selectSurah").value = String(meta.id);
+      populateAyahDropdown(meta.ayahs);
+      document.getElementById("selectAyah").value = String(state.currentAyahNum);
+
+      // Update Banner
+      document.getElementById("badgeSurahNumber").textContent = `سورة رقم ${meta.id}`;
+      document.getElementById("badgeSurahType").textContent = `${meta.type} • ${meta.ayahs} آية • صفحة ${meta.page}`;
+      const infoR = document.getElementById("mushafSurahInfoRight");
+      if (infoR) infoR.textContent = `${meta.type} • ${meta.ayahs} آية`;
+      document.getElementById("titleSurahName").textContent = `سُورَةُ ${meta.name}`;
+      document.getElementById("labelCurrentReciter").textContent = RECITERS[state.reciterId].name;
+
+      const bismillahEl = document.getElementById("bismillahBanner");
+      if (meta.id !== 1 && meta.id !== 9) {
+        bismillahEl.classList.remove("hidden");
+      } else {
+        bismillahEl.classList.add("hidden");
+      }
+
+      // Load Verses
+      state.currentSurahVerses = await getSurahTextOfflineOrFetch(meta.id);
+      renderAyatCards();
+      updateOfflineBadgesUI();
+      updatePlayerFooterLabels();
+
+      if (autoPlay) {
+        playCurrentSelection();
+      } else {
+        audioEl.pause();
+        setPlayingState(false);
+      }
+    }
+
+    function renderAyatCards() {
+      const container = document.getElementById("ayatListContainer");
+      const query = (document.getElementById("inputSearchInSurah").value || "").trim();
+      const meta = SURAHS_META.find(s => s.id === state.currentSurahId);
+
+      if (state.displayMode === "full_surah") {
+        const inlineVerses = state.currentSurahVerses.map((verseText, idx) => {
+          const ayahNum = idx + 1;
+          if (query && !verseText.includes(query) && String(ayahNum) !== query) {
+            return "";
+          }
+          const isActive = ayahNum === state.currentAyahNum;
+          return `<span id="ayah-card-${ayahNum}" data-ayah="${ayahNum}" title="اضغط لتشغيل الآية ${ayahNum}" class="ayah-item ayah-inline-span ${isActive ? 'ayah-active' : ''}">${verseText}&nbsp;<span class="text-emerald-700 dark:text-amber-400 font-bold">﴿${ayahNum}﴾</span></span> `;
+        }).join("");
+
+        container.innerHTML = inlineVerses
+          ? `<div class="mushaf-page-frame rounded-3xl p-5 sm:p-8 transition-all">
+               <div class="font-quran text-justify leading-loose text-slate-900 dark:text-slate-100 select-text" style="text-align-last: center;">
+                 ${inlineVerses}
+               </div>
+             </div>`
+          : `<div class="p-8 text-center text-sm text-slate-500">لا توجد آيات مطابقة للبحث في هذه السورة.</div>`;
+        return;
+      }
+
+      const html = state.currentSurahVerses.map((verseText, idx) => {
+        const ayahNum = idx + 1;
+        if (query && !verseText.includes(query) && String(ayahNum) !== query) {
+          return "";
+        }
+        const isActive = ayahNum === state.currentAyahNum;
+        return `
+          <div id="ayah-card-${ayahNum}" data-ayah="${ayahNum}"
+               class="ayah-item group cursor-pointer rounded-2xl p-4 bg-white dark:bg-slate-900 border transition-all duration-200 ${isActive ? 'ayah-active border-emerald-500' : 'border-stone-200/80 dark:border-slate-800 hover:border-emerald-400/60'}">
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-extrabold ${isActive ? 'bg-emerald-600 text-white shadow-sm' : 'bg-stone-100 dark:bg-slate-800 text-emerald-700 dark:text-emerald-400'}">
+                  ${ayahNum}
+                </span>
+                <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500">سورة ${meta.name} • آية ${ayahNum}</span>
+                ${isActive ? `<span class="text-[11px] font-extrabold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">● الآية المحددة للتلاوة</span>` : ''}
+              </div>
+              <div class="flex items-center gap-1">
+                <button type="button" data-action="set-start" data-ayah="${ayahNum}" class="px-2 py-1 rounded-lg text-[10px] font-bold bg-stone-100 dark:bg-slate-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-slate-600 dark:text-slate-300">بداية الحفظ</button>
+                <button type="button" data-action="set-end" data-ayah="${ayahNum}" class="px-2 py-1 rounded-lg text-[10px] font-bold bg-stone-100 dark:bg-slate-800 hover:bg-amber-100 dark:hover:bg-amber-900/50 text-slate-600 dark:text-slate-300">نهاية الحفظ</button>
+                <button type="button" data-action="play-ayah" data-ayah="${ayahNum}" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-600/10 hover:bg-emerald-600 text-emerald-700 dark:text-emerald-300 hover:text-white transition flex items-center gap-1">
+                  <span>تشغيل</span>
+                  <span>▶</span>
+                </button>
+              </div>
+            </div>
+            <p class="font-quran text-right text-slate-900 dark:text-slate-100 leading-relaxed select-text">
+              ${verseText}
+              <span class="inline-flex items-center justify-center mx-1 text-emerald-700 dark:text-amber-400 font-bold text-lg">﴿${ayahNum}﴾</span>
+            </p>
+          </div>
+        `;
+      }).join("");
+
+      container.innerHTML = html || `<div class="p-8 text-center text-sm text-slate-500">لا توجد آيات مطابقة للبحث في هذه السورة.</div>`;
+    }
+
+    function highlightActiveAyahCard(ayahNum, scroll = true) {
+      state.currentAyahNum = Number(ayahNum);
+      document.getElementById("selectAyah").value = String(ayahNum);
+
+      document.querySelectorAll(".ayah-item").forEach(card => {
+        const cardAyah = Number(card.getAttribute("data-ayah"));
+        if (cardAyah === state.currentAyahNum) {
+          card.classList.add("ayah-active", "border-emerald-500");
+        } else {
+          card.classList.remove("ayah-active", "border-emerald-500");
+        }
+      });
+
+      const activeCard = document.getElementById(`ayah-card-${ayahNum}`);
+      if (activeCard && scroll) {
+        activeCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      updatePlayerFooterLabels();
+    }
+
+    function updatePlayerFooterLabels() {
+      const meta = SURAHS_META.find(s => s.id === state.currentSurahId) || SURAHS_META[0];
+      const reciter = RECITERS[state.reciterId];
+      document.getElementById("playerNowPlayingTitle").textContent = `سورة ${meta.name} • الآية ${state.currentAyahNum} من ${meta.ayahs}`;
+      const offlineReady = isSurahAudioCached(state.reciterId, state.currentSurahId);
+      document.getElementById("playerNowPlayingSub").textContent = `${reciter.name} • ${offlineReady ? 'يعمل من الذاكرة بدون إنترنت ✓' : 'بث مباشر مع حفظ تلقائي'}`;
+
+      const badge = document.getElementById("playerLoopCounterBadge");
+      if (state.ayahRepeatTarget > 1) {
+        badge.classList.remove("hidden");
+        const targetLabel = state.ayahRepeatTarget > 100 ? "∞" : state.ayahRepeatTarget;
+        badge.textContent = `تكرار ${state.ayahRepeatCounter + 1}/${targetLabel}`;
+      } else {
+        badge.classList.add("hidden");
+      }
+    }
+
+    // ============================================================================
+    // 5. AUDIO PLAYBACK ENGINE (Ayah-by-Ayah & Synchronized Full-Surah)
+    // ============================================================================
+    function buildAyahTimingsForSurah(durationSeconds) {
+      // Computes calibrated verse start/end timestamps proportional to character length
+      // so full-Surah recordings (like Sheikh Muhammad Al-Luhaidan) synchronize with each Ayah
+      const verses = state.currentSurahVerses;
+      if (!verses || !verses.length || !durationSeconds || !isFinite(durationSeconds)) {
+        state.surahTimings = [];
+        return;
+      }
+      // Account for Isti'adhah + Bismillah intro (~5.5s on average in full surah files)
+      const introOffset = (state.currentSurahId !== 1 && state.currentSurahId !== 9 && durationSeconds > 20) ? 5.0 : 0.0;
+      const usableDuration = Math.max(1, durationSeconds - introOffset);
+      const weights = verses.map(v => Math.max(12, v.length));
+      const totalWeight = weights.reduce((a, b) => a + b, 0);
+
+      let cursor = introOffset;
+      state.surahTimings = weights.map((w, idx) => {
+        const span = (w / totalWeight) * usableDuration;
+        const start = idx === 0 ? 0 : cursor;
+        const end = idx === verses.length - 1 ? durationSeconds : cursor + span;
+        cursor += span;
+        return { ayah: idx + 1, start, end };
+      });
+    }
+
+    async function playCurrentSelection(shouldSeekToAyah = false) {
+      const reciter = RECITERS[state.reciterId];
+      const s3 = pad3(state.currentSurahId);
+      const surahKey = `${state.reciterId}_surah_${s3}`;
+
+      highlightActiveAyahCard(state.currentAyahNum, true);
+
+      // 1. Check if full Surah audio is cached in IndexedDB / Local Imported
+      const cachedSurahUrl = await getAudioBlobUrlFromDB(surahKey);
+      if (cachedSurahUrl) {
+        await playSurahStreamWithSync(cachedSurahUrl, surahKey, shouldSeekToAyah);
+        return;
+      }
+
+      // Check if user enabled Strict Offline Test Mode
+      if (state.strictOfflineMode) {
+        setPlayingState(false);
+        showToast("وضع التجربة بدون إنترنت مفعل: هذه السورة غير محفوظة بعد، اضغط (حفظ السورة بدون إنترنت) أولاً.");
+        return;
+      }
+
+      // 2. Play Single Continuous Full-Surah Stream (بدون آيات منفصلة وبدون أي سكتة نهائياً)
+      const remoteSurahUrl = `https://${reciter.mp3QuranPath}/${s3}.mp3`;
+      await playSurahStreamWithSync(remoteSurahUrl, surahKey, shouldSeekToAyah);
+
+      // Background cache full Surah for offline reuse & pre-warm next Surah
+      fetch(remoteSurahUrl).then(r => r.ok ? r.blob() : null).then(blob => {
+        if (blob) saveAudioBlobToDB(surahKey, blob).then(updateOfflineBadgesUI);
+      }).catch(() => {});
+    }
+
+    async function playSurahStreamWithSync(targetUrl, surahKey, shouldSeekToAyah = false) {
+      audioEl.dataset.playMode = "surah_sync";
+      const isSameSrc = audioEl.dataset.currentSurahKey === surahKey && audioEl.src;
+
+      if (!isSameSrc) {
+        audioEl.dataset.currentSurahKey = surahKey;
+        audioEl.src = targetUrl;
+        audioEl.playbackRate = state.playbackSpeed;
+        audioEl.onloadedmetadata = () => {
+          buildAyahTimingsForSurah(audioEl.duration);
+          if (shouldSeekToAyah && state.currentAyahNum > 1) {
+            seekToAyahInSurahMode(state.currentAyahNum);
+          }
+          safePlayAudio();
+        };
+        // Fallback if metadata already loaded
+        if (audioEl.readyState >= 1) {
+          buildAyahTimingsForSurah(audioEl.duration);
+          if (shouldSeekToAyah && state.currentAyahNum > 1) {
+            seekToAyahInSurahMode(state.currentAyahNum);
+          }
+          safePlayAudio();
+        }
+      } else {
+        if (!state.surahTimings.length && audioEl.duration) {
+          buildAyahTimingsForSurah(audioEl.duration);
+        }
+        if (shouldSeekToAyah) {
+          if (state.currentAyahNum === 1) {
+            try { audioEl.currentTime = 0; } catch (e) {}
+          } else {
+            seekToAyahInSurahMode(state.currentAyahNum);
+          }
+        }
+        safePlayAudio();
+      }
+    }
+
+    function seekToAyahInSurahMode(ayahNum) {
+      const timing = state.surahTimings.find(t => t.ayah === Number(ayahNum));
+      if (timing && isFinite(timing.start)) {
+        try {
+          audioEl.currentTime = timing.start;
+        } catch (e) {}
+      }
+    }
+
+    function safePlayAudio() {
+      const p = audioEl.play();
+      if (p && typeof p.then === "function") {
+        p.then(() => {
+          setPlayingState(true);
+        }).catch(() => {
+          setPlayingState(false);
+          showToast("تعذر تشغيل الصوت تلقائياً — تأكد من الاتصال بالإنترنت عند التحميل لأول مرة أو اختر سورة محفوظة");
+        });
+      } else {
+        setPlayingState(true);
+      }
+    }
+
+    function setPlayingState(playing) {
+      state.isPlaying = playing;
+      const iconPlay = document.getElementById("iconPlay");
+      const iconPause = document.getElementById("iconPause");
+      const wave = document.getElementById("waveIndicator");
+      if (playing) {
+        iconPlay.classList.add("hidden");
+        iconPause.classList.remove("hidden");
+        wave.classList.remove("opacity-40");
+      } else {
+        iconPlay.classList.remove("hidden");
+        iconPause.classList.add("hidden");
+        wave.classList.add("opacity-40");
+      }
+    }
+
+    // Handle Audio Time Update & Synchronized Ayah Tracking
+    audioEl.addEventListener("timeupdate", () => {
+      const cur = audioEl.currentTime || 0;
+      const dur = audioEl.duration || 0;
+      document.getElementById("playerCurrentTime").textContent = formatTime(cur);
+      document.getElementById("playerDurationTime").textContent = formatTime(dur);
+      if (dur > 0) {
+        document.getElementById("playerSeekSlider").value = String((cur / dur) * 100);
+      }
+
+      // If in Surah-Sync mode (Muhammad Al-Luhaidan or full Surah cached), track active Ayah & repeat logic
+      if (audioEl.dataset.playMode === "surah_sync" && state.surahTimings.length) {
+        const currentTiming = state.surahTimings.find(t => t.ayah === state.currentAyahNum);
+
+        // Check if current Ayah reached its end timestamp and needs single-Ayah repeat or range loop
+        if (currentTiming && cur >= currentTiming.end - 0.12) {
+          if (state.ayahRepeatTarget > 1 && state.ayahRepeatCounter + 1 < state.ayahRepeatTarget) {
+            state.ayahRepeatCounter++;
+            audioEl.currentTime = currentTiming.start;
+            updatePlayerFooterLabels();
+            return;
+          }
+          state.ayahRepeatCounter = 0;
+
+          // Check range repeat end
+          if (state.surahRepeatMode === "range" && state.currentAyahNum >= state.rangeEnd) {
+            highlightActiveAyahCard(state.rangeStart, true);
+            seekToAyahInSurahMode(state.rangeStart);
+            return;
+          }
+        }
+
+        // Otherwise highlight the Ayah matching current audio timestamp
+        const matched = state.surahTimings.find(t => cur >= t.start && cur < t.end);
+        if (matched && matched.ayah !== state.currentAyahNum) {
+          highlightActiveAyahCard(matched.ayah, true);
+        }
+      }
+    });
+
+    // Pre-fetch upcoming Ayahs in background so transitions are instantaneous (0ms network delay)
+    const preloadingSet = new Set();
+    async function preloadUpcomingAyahs(reciterId, surahId, currentAyah) {
+      const reciter = RECITERS[reciterId];
+      if (!reciter || reciter.mode !== "ayah" || state.strictOfflineMode) return;
+      const meta = SURAHS_META.find(s => s.id === surahId);
+      if (!meta) return;
+
+      for (let offset = 1; offset <= 2; offset++) {
+        let targetSurah = surahId;
+        let targetAyah = currentAyah + offset;
+        if (targetAyah > meta.ayahs) {
+          targetSurah = surahId < 114 ? surahId + 1 : 1;
+          targetAyah = targetAyah - meta.ayahs;
+        }
+        const s3 = pad3(targetSurah);
+        const a3 = pad3(targetAyah);
+        const key = `${reciterId}_ayah_${s3}${a3}`;
+        if (state.cachedAudioKeys.has(key) || preloadingSet.has(key)) continue;
+        preloadingSet.add(key);
+        const url = `https://everyayah.com/data/${reciter.everyAyahFolder}/${s3}${a3}.mp3`;
+        fetch(url).then(r => r.ok ? r.blob() : null).then(blob => {
+          if (blob) {
+            const memUrl = URL.createObjectURL(blob);
+            state.localImportedBlobs.set(key, memUrl);
+            saveAudioBlobToDB(key, blob).then(updateOfflineBadgesUI);
+          }
+        }).catch(() => {}).finally(() => preloadingSet.delete(key));
+      }
+    }
+
+    // Advance to next Ayah or next Surah seamlessly
+    function handleAyahOrSurahTransition() {
+      const meta = SURAHS_META.find(s => s.id === state.currentSurahId) || SURAHS_META[0];
+
+      if (audioEl.dataset.playMode === "ayah") {
+        // 1. Check single Ayah Repeat
+        if (state.ayahRepeatTarget > 1 && state.ayahRepeatCounter + 1 < state.ayahRepeatTarget) {
+          state.ayahRepeatCounter++;
+          updatePlayerFooterLabels();
+          audioEl.currentTime = 0;
+          safePlayAudio();
+          return;
+        }
+        state.ayahRepeatCounter = 0;
+
+        // 2. Check Memorization Range Repeat
+        const maxAyah = state.surahRepeatMode === "range" ? Math.min(meta.ayahs, state.rangeEnd) : meta.ayahs;
+        const minAyah = state.surahRepeatMode === "range" ? Math.max(1, state.rangeStart) : 1;
+
+        if (state.currentAyahNum < maxAyah) {
+          state.currentAyahNum++;
+          playCurrentSelection();
+        } else {
+          // Reached end of Surah or Range
+          if (state.surahRepeatMode === "surah" || state.surahRepeatMode === "range") {
+            state.currentAyahNum = minAyah;
+            playCurrentSelection();
+          } else if (state.surahRepeatMode === "continuous") {
+            const nextSurahId = state.currentSurahId < 114 ? state.currentSurahId + 1 : 1;
+            const nextMeta = SURAHS_META.find(s => s.id === nextSurahId);
+            showToast(`انتهت سورة ${meta.name} — جاري الانتقال تلقائياً إلى سورة ${nextMeta ? nextMeta.name : nextSurahId}`);
+            loadSurah(nextSurahId, 1, true);
+          } else {
+            setPlayingState(false);
+          }
+        }
+      } else {
+        // Full Surah mode ended
+        if (state.surahRepeatMode === "surah" || state.surahRepeatMode === "range") {
+          const startAyah = state.surahRepeatMode === "range" ? state.rangeStart : 1;
+          highlightActiveAyahCard(startAyah, true);
+          seekToAyahInSurahMode(startAyah);
+          safePlayAudio();
+        } else if (state.surahRepeatMode === "continuous") {
+          const nextSurahId = state.currentSurahId < 114 ? state.currentSurahId + 1 : 1;
+          const nextMeta = SURAHS_META.find(s => s.id === nextSurahId);
+          showToast(`انتهت سورة ${meta.name} — جاري الانتقال تلقائياً إلى سورة ${nextMeta ? nextMeta.name : nextSurahId}`);
+          loadSurah(nextSurahId, 1, true);
+        } else {
+          setPlayingState(false);
+        }
+      }
+    }
+
+    // Trim trailing silence (~0.18s) at the end of individual Ayah MP3 files so verses connect without a pause
+    audioEl.addEventListener("timeupdate", () => {
+      if (audioEl.dataset.playMode === "ayah" && audioEl.duration > 1.2) {
+        const remaining = audioEl.duration - audioEl.currentTime;
+        if (remaining > 0 && remaining <= 0.16 && !audioEl.dataset.earlyTransitionTriggered) {
+          audioEl.dataset.earlyTransitionTriggered = "1";
+          handleAyahOrSurahTransition();
+        }
+      }
+    });
+
+    audioEl.addEventListener("loaded data", () => {
+      delete audioEl.dataset.earlyTransitionTriggered;
+    });
+    audioEl.addEventListener("play", () => {
+      delete audioEl.dataset.earlyTransitionTriggered;
+    });
+
+    // Handle Audio Ended fallback
+    audioEl.addEventListener("ended", () => {
+      if (audioEl.dataset.earlyTransitionTriggered === "1") {
+        delete audioEl.dataset.earlyTransitionTriggered;
+        return;
+      }
+      handleAyahOrSurahTransition();
+    });
+
+    function formatTime(sec) {
+      if (!sec || !isFinite(sec)) return "00:00";
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+
+    // ============================================================================
+    // 6. OFFLINE PRE-DOWNLOAD MANAGER & SURAHS INDEX RENDERING
+    // ============================================================================
+    function updateOfflineBadgesUI() {
+      const currentCached = isSurahAudioCached(state.reciterId, state.currentSurahId) || state.cachedTextSurahs.has(state.currentSurahId);
+      const badgeOffline = document.getElementById("badgeOfflineStatus");
+      const txtBtn = document.getElementById("txtDownloadCurrentSurah");
+
+      if (isSurahAudioCached(state.reciterId, state.currentSurahId)) {
+        badgeOffline.textContent = "الصوت والنص محفوظان بدون إنترنت ✓";
+        badgeOffline.className = "px-2 py-0.5 rounded-lg bg-emerald-500/35 border border-emerald-300/50 text-emerald-100 text-xs font-bold";
+        txtBtn.textContent = "محفوظة ✓";
+        const ind = document.getElementById("mushafOfflineIndicator");
+        if (ind) ind.textContent = "محفوظة أوفلاين ✓";
+      } else if (state.cachedTextSurahs.has(state.currentSurahId)) {
+        badgeOffline.textContent = "النص محفوظ • اضغط لتحميل الصوت أوفلاين";
+        badgeOffline.className = "px-2 py-0.5 rounded-lg bg-amber-500/30 border border-amber-300/40 text-amber-100 text-xs font-bold";
+        txtBtn.textContent = "حفظ أوفلاين";
+        const ind = document.getElementById("mushafOfflineIndicator");
+        if (ind) ind.textContent = RECITERS[state.reciterId].name;
+      } else {
+        badgeOffline.textContent = "متاح للبث والتحميل المسبق";
+        txtBtn.textContent = "حفظ أوفلاين";
+        const ind = document.getElementById("mushafOfflineIndicator");
+        if (ind) ind.textContent = RECITERS[state.reciterId].name;
+      }
+
+      document.getElementById("offlineCountBadge").textContent = String(state.cachedTextSurahs.size);
+      const mb = (state.cachedBytesTotal / (1024 * 1024)).toFixed(2);
+      document.getElementById("storageStatsText").textContent =
+        `نصوص السور المحفوظة: ${state.cachedTextSurahs.size} / 114 | الملفات الصوتية المحفوظة: ${state.cachedAudioKeys.size} (${mb} MB)`;
+
+      renderSurahsGrid();
+      renderOfflineTable();
+    }
+
+    async function downloadSingleSurahOffline(surahId, reciterId = state.reciterId, showNotification = true) {
+      const meta = SURAHS_META.find(s => s.id === Number(surahId));
+      if (!meta) return;
+      const reciter = RECITERS[reciterId];
+      const s3 = pad3(meta.id);
+
+      if (showNotification) {
+        showToast(`جاري تحميل سورة ${meta.name} (${reciter.name}) للعمل بدون إنترنت...`);
+      }
+
+      // 1. Ensure Surah text is cached in IndexedDB
+      const verses = await getSurahTextOfflineOrFetch(meta.id);
+      await saveSurahTextToDB(meta.id, verses);
+
+      // 2. Download full Surah MP3 into IndexedDB (with CORS-friendly fallback mirror)
+      const surahKey = `${reciterId}_surah_${s3}`;
+      let surahSaved = false;
+      const mirrors = [
+        `https://${reciter.mp3QuranPath}/${s3}.mp3`,
+        `${reciter.quranicAudioServer}${s3}.mp3`
+      ];
+      for (const url of mirrors) {
+        try {
+          const res = await fetch(url);
+          if (res.ok) {
+            const blob = await res.blob();
+            await saveAudioBlobToDB(surahKey, blob);
+            surahSaved = true;
+            break;
+          }
+        } catch (e) {}
+      }
+
+      // Full Surah is saved as a single continuous audio file (بدون آيات منفصلة)
+
+      updateOfflineBadgesUI();
+      if (showNotification) {
+        showToast(`تم حفظ سورة ${meta.name} بنجاح للعمل بدون إنترنت ✓`);
+      }
+    }
+
+    async function batchDownloadAllTexts() {
+      const box = document.getElementById("downloadProgressCard");
+      const title = document.getElementById("downloadProgressTitle");
+      const pct = document.getElementById("downloadProgressPercent");
+      const bar = document.getElementById("downloadProgressBar");
+      const detail = document.getElementById("downloadProgressDetail");
+
+      state.batchCancelRequested = false;
+      box.classList.remove("hidden");
+      title.textContent = "جاري تحميل نصوص جميع سور القرآن الكريم (114 سورة)...";
+
+      for (let i = 0; i < SURAHS_META.length; i++) {
+        if (state.batchCancelRequested) break;
+        const s = SURAHS_META[i];
+        const progress = Math.round(((i + 1) / SURAHS_META.length) * 100);
+        pct.textContent = `${progress}%`;
+        bar.style.width = `${progress}%`;
+        detail.textContent = `جاري حفظ سورة ${s.name} (${i + 1} من 114)...`;
+
+        const verses = await getSurahTextOfflineOrFetch(s.id);
+        await saveSurahTextToDB(s.id, verses);
+      }
+
+      updateOfflineBadgesUI();
+      if (!state.batchCancelRequested) {
+        title.textContent = "اكتمل حفظ نصوص المصحف كاملاً (114 سورة) للعمل بدون إنترنت ✓";
+        showToast("تم حفظ نصوص جميع السور (114 سورة) بدون إنترنت ✓");
+      } else {
+        title.textContent = "تم إيقاف التحميل المسبق.";
+      }
+    }
+
+    async function batchDownloadSurahListAudio(surahIds, labelText) {
+      const box = document.getElementById("downloadProgressCard");
+      const title = document.getElementById("downloadProgressTitle");
+      const pct = document.getElementById("downloadProgressPercent");
+      const bar = document.getElementById("downloadProgressBar");
+      const detail = document.getElementById("downloadProgressDetail");
+
+      state.batchCancelRequested = false;
+      box.classList.remove("hidden");
+      title.textContent = labelText;
+
+      for (let i = 0; i < surahIds.length; i++) {
+        if (state.batchCancelRequested) break;
+        const sid = surahIds[i];
+        const meta = SURAHS_META.find(s => s.id === sid);
+        const progress = Math.round(((i + 1) / surahIds.length) * 100);
+        pct.textContent = `${progress}%`;
+        bar.style.width = `${progress}%`;
+        detail.textContent = `جاري تحميل سورة ${meta ? meta.name : sid} بصوت ${RECITERS[state.reciterId].name} (${i + 1} من ${surahIds.length})...`;
+
+        await downloadSingleSurahOffline(sid, state.reciterId, false);
+      }
+
+      updateOfflineBadgesUI();
+      if (!state.batchCancelRequested) {
+        title.textContent = "اكتمل التحميل المسبق للسور بنجاح ✓";
+        showToast("تم حفظ التلاوات الصوتية المختارة للعمل بدون إنترنت ✓");
+      } else {
+        title.textContent = "تم إيقاف التحميل المسبق.";
+      }
+    }
+
+    function renderSurahsGrid() {
+      const container = document.getElementById("surahsGridContainer");
+      const query = (document.getElementById("inputSearchSurah").value || "").trim();
+
+      const filtered = SURAHS_META.filter(s => {
+        if (query && !s.name.includes(query) && String(s.id) !== query) return false;
+        if (state.surahFilter === "makki" && s.type !== "مكية") return false;
+        if (state.surahFilter === "madani" && s.type !== "مدنية") return false;
+        if (state.surahFilter === "offline" && !isSurahAudioCached(state.reciterId, s.id) && !state.cachedTextSurahs.has(s.id)) return false;
+        return true;
+      });
+
+      container.innerHTML = filtered.map(s => {
+        const audioOffline = isSurahAudioCached(state.reciterId, s.id);
+        const textOffline = state.cachedTextSurahs.has(s.id);
+        return `
+          <div class="rounded-2xl p-3 bg-white dark:bg-slate-900 border border-stone-200 dark:border-slate-800 hover:border-emerald-500 transition flex items-center justify-between gap-2 shadow-sm">
+            <button type="button" data-open-surah="${s.id}" class="flex items-center gap-3 text-right flex-1 min-w-0">
+              <span class="w-9 h-9 rounded-xl bg-emerald-600/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-extrabold text-xs flex items-center justify-center shrink-0">
+                ${s.id}
+              </span>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <p class="font-extrabold text-sm text-slate-900 dark:text-white truncate">سورة ${s.name}</p>
+                  ${audioOffline ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold">صوت أوفلاين ✓</span>` : (textOffline ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300 font-bold">نص أوفلاين</span>` : '')}
+                </div>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">${s.type} • ${s.ayahs} آية • ص ${s.page}</p>
+              </div>
+            </button>
+            <button type="button" data-dl-surah="${s.id}" title="تحميل السورة بدون إنترنت" class="p-2 rounded-xl ${audioOffline ? 'bg-emerald-600 text-white' : 'bg-stone-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-emerald-600 hover:text-white'} transition shrink-0">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderOfflineTable() {
+      const container = document.getElementById("offlineSurahTableContainer");
+      container.innerHTML = SURAHS_META.map(s => {
+        const audioCached = isSurahAudioCached(state.reciterId, s.id);
+        return `
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-stone-50 dark:bg-slate-800/70 border border-stone-200/80 dark:border-slate-700/70 text-xs">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-emerald-600/15 text-emerald-700 dark:text-emerald-300 font-bold flex items-center justify-center">${s.id}</span>
+              <span class="font-bold">سورة ${s.name}</span>
+              <span class="text-[11px] text-slate-400">(${s.ayahs} آية)</span>
+            </div>
+            <button type="button" data-dl-surah="${s.id}" class="px-2.5 py-1 rounded-lg font-bold ${audioCached ? 'bg-emerald-600 text-white' : 'bg-stone-200 dark:bg-slate-700 hover:bg-emerald-600 hover:text-white'} transition">
+              ${audioCached ? 'محفوظة أوفلاين ✓' : 'تحميل السورة'}
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // ============================================================================
+    // 7. EVENT LISTENERS & NAVIGATION WIRING
+    // ============================================================================
+    function switchTab(tabName) {
+      const views = {
+        reader: document.getElementById("viewReader"),
+        surahs: document.getElementById("viewSurahs"),
+        offline: document.getElementById("viewOffline")
+      };
+      const btns = {
+        reader: document.getElementById("tabBtnReader"),
+        surahs: document.getElementById("tabBtnSurahs"),
+        offline: document.getElementById("tabBtnOffline")
+      };
+      Object.keys(views).forEach(k => {
+        if (k === tabName) {
+          views[k].classList.remove("hidden");
+          btns[k].className = "flex items-center justify-center gap-1.5 py-2 rounded-xl bg-emerald-700 text-white shadow-sm transition";
+        } else {
+          views[k].classList.add("hidden");
+          btns[k].className = "flex items-center justify-center gap-1.5 py-2 rounded-xl bg-stone-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 transition";
+        }
+      });
+      const backBtn = document.getElementById("btnTopBackToReader");
+      if (backBtn) {
+        if (tabName === "reader") {
+          backBtn.classList.add("hidden");
+          backBtn.classList.remove("inline-flex");
+        } else {
+          backBtn.classList.remove("hidden");
+          backBtn.classList.add("inline-flex");
+        }
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function setReciter(reciterId) {
+      state.reciterId = reciterId;
+      const btnDosari = document.getElementById("btnReciterDosari");
+      const btnLuhaidan = document.getElementById("btnReciterLuhaidan");
+
+      if (reciterId === "dosari") {
+        btnDosari.className = "px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-amber-400 text-slate-950 shadow-sm";
+        btnLuhaidan.className = "px-2.5 py-1 rounded-lg font-bold text-xs transition-all text-emerald-100 hover:bg-white/10";
+      } else {
+        btnLuhaidan.className = "px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-amber-400 text-slate-950 shadow-sm";
+        btnDosari.className = "px-2.5 py-1 rounded-lg font-bold text-xs transition-all text-emerald-100 hover:bg-white/10";
+      }
+
+      document.getElementById("labelCurrentReciter").textContent = RECITERS[reciterId].name;
+      updateOfflineBadgesUI();
+      updatePlayerFooterLabels();
+
+      if (state.isPlaying) {
+        playCurrentSelection();
+      }
+    }
+
+    // Wire Header & Tabs
+    let deferredInstallPrompt = null;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+    });
+
+    document.getElementById("btnInstallApkModal").addEventListener("click", () => {
+      document.getElementById("apkInstallModal").classList.remove("hidden");
+    });
+    document.getElementById("btnCloseApkModal").addEventListener("click", () => {
+      document.getElementById("apkInstallModal").classList.add("hidden");
+    });
+    document.getElementById("btnTriggerNativeInstall").addEventListener("click", async () => {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+      } else {
+        showToast("لتثبيت التطبيق على هاتفك: افتح قائمة المتصفح (⋮) واختر (تثبيت التطبيق / الإضافة إلى الشاشة الرئيسية)");
+      }
+    });
+
+    document.getElementById("btnToggleOptionsDrawer").addEventListener("click", () => {
+      document.getElementById("optionsDrawerPanel").classList.toggle("hidden");
+    });
+    document.getElementById("btnTopBackToReader").addEventListener("click", () => switchTab("reader"));
+    document.querySelectorAll("[data-back-reader]").forEach(b => b.addEventListener("click", () => switchTab("reader")));
+    document.getElementById("tabBtnReader").addEventListener("click", () => switchTab("reader"));
+    document.getElementById("tabBtnSurahs").addEventListener("click", () => switchTab("surahs"));
+    document.getElementById("tabBtnOffline").addEventListener("click", () => switchTab("offline"));
+
+    document.getElementById("btnReciterDosari").addEventListener("click", () => setReciter("dosari"));
+    document.getElementById("btnReciterLuhaidan").addEventListener("click", () => setReciter("luhaidan"));
+
+    document.getElementById("btnFontIncrease").addEventListener("click", () => {
+      state.fontSizeRem = Math.min(2.6, state.fontSizeRem + 0.15);
+      document.documentElement.style.setProperty("--quran-font-size", `${state.fontSizeRem}rem`);
+    });
+    document.getElementById("btnFontDecrease").addEventListener("click", () => {
+      state.fontSizeRem = Math.max(1.2, state.fontSizeRem - 0.15);
+      document.documentElement.style.setProperty("--quran-font-size", `${state.fontSizeRem}rem`);
+    });
+    document.getElementById("btnThemeToggle").addEventListener("click", () => {
+      state.darkMode = !state.darkMode;
+      document.documentElement.classList.toggle("dark", state.darkMode);
+    });
+
+    // Wire Surah & Ayah Selectors
+    document.getElementById("selectSurah").addEventListener("change", (e) => {
+      loadSurah(Number(e.target.value), 1, state.isPlaying);
+    });
+    document.getElementById("selectAyah").addEventListener("change", (e) => {
+      state.currentAyahNum = Number(e.target.value);
+      state.ayahRepeatCounter = 0;
+      highlightActiveAyahCard(state.currentAyahNum, true);
+      playCurrentSelection(true);
+    });
+
+    document.getElementById("btnDownloadCurrentSurah").addEventListener("click", () => {
+      downloadSingleSurahOffline(state.currentSurahId, state.reciterId, true);
+    });
+
+    // Wire Memorization & Repeat Controls
+    document.getElementById("selectAyahRepeat").addEventListener("change", (e) => {
+      state.ayahRepeatTarget = Number(e.target.value);
+      state.ayahRepeatCounter = 0;
+      updatePlayerFooterLabels();
+    });
+    document.getElementById("selectSurahRepeat").addEventListener("change", (e) => {
+      state.surahRepeatMode = e.target.value;
+    });
+    document.getElementById("inputRangeStart").addEventListener("change", (e) => {
+      state.rangeStart = Math.max(1, Number(e.target.value) || 1);
+    });
+    document.getElementById("inputRangeEnd").addEventListener("change", (e) => {
+      state.rangeEnd = Math.max(state.rangeStart, Number(e.target.value) || 1);
+    });
+    document.getElementById("inputSearchInSurah").addEventListener("input", () => {
+      renderAyatCards();
+    });
+
+    document.getElementById("btnToggleDisplayMode").addEventListener("click", () => {
+      state.displayMode = state.displayMode === "full_surah" ? "cards" : "full_surah";
+      document.getElementById("btnToggleDisplayMode").textContent =
+        state.displayMode === "full_surah"
+          ? "طريقة العرض: السورة كاملة متصلة ✓"
+          : "طريقة العرض: آيات منفصلة (بطاقات)";
+      renderAyatCards();
+    });
+
+    document.getElementById("btnSimulateOffline").addEventListener("click", () => {
+      state.strictOfflineMode = !state.strictOfflineMode;
+      const btn = document.getElementById("btnSimulateOffline");
+      if (state.strictOfflineMode) {
+        btn.textContent = "وضع التجربة أوفلاين: مفعل ✓";
+        btn.className = "px-2.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-xs shadow-sm transition";
+        showToast("تم تفعيل وضع بدون إنترنت التجريبي: سيعمل التطبيق من الذاكرة المحلية فقط");
+      } else {
+        btn.textContent = "وضع التجربة أوفلاين: متوقف";
+        btn.className = "px-2.5 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-emerald-100 font-bold text-xs border border-white/20 transition";
+        showToast("تم إيقاف وضع التجربة أوفلاين والعودة للوضع التلقائي");
+      }
+    });
+
+    // Delegate clicks on Ayah cards
+    document.getElementById("ayatListContainer").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-action]");
+      if (btn) {
+        e.stopPropagation();
+        const action = btn.getAttribute("data-action");
+        const ayahNum = Number(btn.getAttribute("data-ayah"));
+        if (action === "play-ayah") {
+          state.currentAyahNum = ayahNum;
+          state.ayahRepeatCounter = 0;
+          playCurrentSelection(true);
+        } else if (action === "set-start") {
+          state.rangeStart = ayahNum;
+          document.getElementById("inputRangeStart").value = String(ayahNum);
+          document.getElementById("selectSurahRepeat").value = "range";
+          state.surahRepeatMode = "range";
+          showToast(`تم تحديد بداية نطاق الحفظ من الآية ${ayahNum}`);
+        } else if (action === "set-end") {
+          state.rangeEnd = Math.max(state.rangeStart, ayahNum);
+          document.getElementById("inputRangeEnd").value = String(state.rangeEnd);
+          document.getElementById("selectSurahRepeat").value = "range";
+          state.surahRepeatMode = "range";
+          showToast(`تم تحديد نهاية نطاق الحفظ إلى الآية ${state.rangeEnd}`);
+        }
+        return;
+      }
+
+      const card = e.target.closest(".ayah-item");
+      if (card) {
+        const ayahNum = Number(card.getAttribute("data-ayah"));
+        state.currentAyahNum = ayahNum;
+        state.ayahRepeatCounter = 0;
+        playCurrentSelection(true);
+      }
+    });
+
+    // Delegate clicks on Surahs Grid & Offline Table
+    document.body.addEventListener("click", (e) => {
+      const openBtn = e.target.closest("[data-open-surah]");
+      if (openBtn) {
+        const sid = Number(openBtn.getAttribute("data-open-surah"));
+        switchTab("reader");
+        loadSurah(sid, 1, false);
+        return;
+      }
+      const dlBtn = e.target.closest("[data-dl-surah]");
+      if (dlBtn) {
+        const sid = Number(dlBtn.getAttribute("data-dl-surah"));
+        downloadSingleSurahOffline(sid, state.reciterId, true);
+      }
+    });
+
+    // Surahs Filter Buttons
+    document.getElementById("inputSearchSurah").addEventListener("input", renderSurahsGrid);
+    function setSurahFilter(filter) {
+      state.surahFilter = filter;
+      const map = {
+        all: "filterAllSurahs",
+        offline: "filterOfflineSurahs",
+        makki: "filterMakkiSurahs",
+        madani: "filterMadaniSurahs"
+      };
+      Object.keys(map).forEach(k => {
+        const el = document.getElementById(map[k]);
+        el.className = k === filter
+          ? "px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white shrink-0"
+          : "px-3 py-1.5 rounded-xl text-xs font-bold bg-stone-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shrink-0";
+      });
+      renderSurahsGrid();
+    }
+    document.getElementById("filterAllSurahs").addEventListener("click", () => setSurahFilter("all"));
+    document.getElementById("filterOfflineSurahs").addEventListener("click", () => setSurahFilter("offline"));
+    document.getElementById("filterMakkiSurahs").addEventListener("click", () => setSurahFilter("makki"));
+    document.getElementById("filterMadaniSurahs").addEventListener("click", () => setSurahFilter("madani"));
+
+    // Offline Manager Batch Buttons
+    document.getElementById("btnDownloadAllTexts").addEventListener("click", batchDownloadAllTexts);
+    document.getElementById("btnDownloadJuzAmmaAudio").addEventListener("click", () => {
+      const popularAndJuzAmma = [1, 18, 36, 55, 56, 67, ...Array.from({ length: 37 }, (_, i) => 78 + i)];
+      batchDownloadSurahListAudio(popularAndJuzAmma, "جاري التحميل المسبق لجزء عمّ وسور الكهف ويس والملك والرحمن والواقعة...");
+    });
+    document.getElementById("btnDownloadAll114Audio").addEventListener("click", () => {
+      const allIds = SURAHS_META.map(s => s.id);
+      batchDownloadSurahListAudio(allIds, "جاري التحميل المسبق لصوتيات المصحف كاملاً (114 سورة)...");
+    });
+    document.getElementById("btnCancelBatchDownload").addEventListener("click", () => {
+      state.batchCancelRequested = true;
+    });
+
+    // Local MP3 Files Import
+    document.getElementById("inputLocalMp3Files").addEventListener("change", (e) => {
+      const files = Array.from(e.target.files || []);
+      let importedCount = 0;
+      files.forEach(file => {
+        const name = file.name.replace(/\.[^.]+$/, "");
+        const blobUrl = URL.createObjectURL(file);
+        // Match 001001 (Surah + Ayah) or 001 (Surah)
+        if (/^\d{6}$/.test(name)) {
+          const key = `${state.reciterId}_ayah_${name}`;
+          state.localImportedBlobs.set(key, blobUrl);
+          state.cachedAudioKeys.add(key);
+          importedCount++;
+        } else if (/^\d{1,3}$/.test(name)) {
+          const s3 = pad3(Number(name));
+          const key = `${state.reciterId}_surah_${s3}`;
+          state.localImportedBlobs.set(key, blobUrl);
+          state.cachedAudioKeys.add(key);
+          importedCount++;
+        }
+      });
+      updateOfflineBadgesUI();
+      showToast(`تم ربط ${importedCount} ملف صوتي محلي بنجاح للعمل بدون إنترنت ✓`);
+    });
+
+    document.getElementById("btnClearOfflineCache").addEventListener("click", async () => {
+      const db = await openOfflineDB();
+      if (db) {
+        const tx = db.transaction(["surah_texts", "audio_blobs"], "readwrite");
+        tx.objectStore("surah_texts").clear();
+        tx.objectStore("audio_blobs").clear();
+      }
+      state.cachedAudioKeys.clear();
+      state.cachedTextSurahs = new Set(Object.keys(BUILTIN_SURAHS_TEXT).map(Number));
+      updateOfflineBadgesUI();
+      showToast("تم مسح التخزين المؤقت بنجاح");
+    });
+
+    // Bottom Player Transport Controls
+    document.getElementById("btnPlayPause").addEventListener("click", () => {
+      if (state.isPlaying) {
+        audioEl.pause();
+        setPlayingState(false);
+      } else {
+        if (audioEl.src && audioEl.currentTime > 0 && !audioEl.ended) {
+          safePlayAudio();
+        } else {
+          playCurrentSelection();
+        }
+      }
+    });
+
+    document.getElementById("btnPrevAyah").addEventListener("click", () => {
+      if (state.currentAyahNum > 1) {
+        state.currentAyahNum--;
+        state.ayahRepeatCounter = 0;
+        playCurrentSelection(true);
+      } else if (state.currentSurahId > 1) {
+        loadSurah(state.currentSurahId - 1, 1, true);
+      }
+    });
+
+    document.getElementById("btnNextAyah").addEventListener("click", () => {
+      const meta = SURAHS_META.find(s => s.id === state.currentSurahId) || SURAHS_META[0];
+      if (state.currentAyahNum < meta.ayahs) {
+        state.currentAyahNum++;
+        state.ayahRepeatCounter = 0;
+        playCurrentSelection(true);
+      } else {
+        const nextSurahId = state.currentSurahId < 114 ? state.currentSurahId + 1 : 1;
+        loadSurah(nextSurahId, 1, true);
+      }
+    });
+
+    document.getElementById("playerSeekSlider").addEventListener("input", (e) => {
+      const dur = audioEl.duration || 0;
+      if (dur > 0) {
+        audioEl.currentTime = (Number(e.target.value) / 100) * dur;
+      }
+    });
+
+    document.getElementById("btnSpeedToggle").addEventListener("click", () => {
+      const speeds = [0.75, 1.0, 1.25, 1.5];
+      const idx = (speeds.indexOf(state.playbackSpeed) + 1) % speeds.length;
+      state.playbackSpeed = speeds[idx];
+      audioEl.playbackRate = state.playbackSpeed;
+      document.getElementById("btnSpeedToggle").textContent = `${state.playbackSpeed}x`;
+    });
+
+    // Network Connectivity Monitor
+    function updateNetworkBadge() {
+      const dot = document.getElementById("networkDot");
+      const txt = document.getElementById("networkText");
+      if (navigator.onLine) {
+        dot.className = "w-1.5 h-1.5 rounded-full bg-emerald-300";
+        txt.textContent = "متصل • أوفلاين جاهز";
+      } else {
+        dot.className = "w-1.5 h-1.5 rounded-full bg-amber-300";
+        txt.textContent = "وضع بدون إنترنت نشط";
+      }
+    }
+    window.addEventListener("online", updateNetworkBadge);
+    window.addEventListener("offline", updateNetworkBadge);
+
+    // Initialize Application
+    window.addEventListener("DOMContentLoaded", async () => {
+      updateNetworkBadge();
+      populateSurahDropdown();
+      await loadCachedKeysInventory();
+      await loadSurah(1, 1, false);
+    });
+  </script>
+  </div>
+</body>
+</html>
